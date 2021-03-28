@@ -6,3 +6,4 @@ All my labs on web programming at university:
 4. Application module "participation in the auction of paintings"
 5. Previous lab administration module
 6. Application module "Purchase and sale of shares"
+7. Course work: Developing a JavaScript Game
