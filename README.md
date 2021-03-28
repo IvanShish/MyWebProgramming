@@ -7,3 +7,12 @@ All my labs on web programming at university:
 5. Previous lab administration module
 6. Application module "Purchase and sale of shares"
 7. Course work: Developing a JavaScript Game
+
+Все мои лабораторные работы по web-технологиям в университете:
+1. Тетрис
+2. REST-приложение управления библиотекой
+3. Модуль администрирования для предыдущей лаб. работы
+4. Модуль приложения «участие в аукционе картин»
+5. Модуль администрирования для предыдущей лаб. работы
+6. Модуль приложения «Покупка и продажа акций»
+7. Курсовая работа: Разработка игры на языке JavaScript
