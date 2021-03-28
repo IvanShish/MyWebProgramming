@@ -1,0 +1,190 @@
+body {
+    background-color: #FAEBD7;
+}
+
+#library-entrance {
+    text-align: center;
+    margin-top: 200px;
+}
+
+.entranceBtn {
+    background-color: #5F9EA0;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.entranceBtn:hover {
+    border: none;
+    background: orange;
+    box-shadow: 0px 0px 1px #777;
+}
+
+.showAllBooksButton {
+    background-color: #FF7F50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.showAvailableBooksButton {
+    background-color: #FFD700;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.showExpiredBooksButton {
+    background-color: #4B0082;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.addBookButton {
+    background-color: #90EE90;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.editBookButton {
+    background-color: #4169E1;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: min-content;
+}
+
+.deleteBookButton {
+    background-color: #FF4500;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: min-content;
+    width: min-content;
+}
+
+#books_table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#books_table td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#books_table tr:nth-child(even){background-color: #f2f2f2;}
+
+#books_table tr:hover {background-color: #ddd;}
+
+#books_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    padding-left: 8px;
+    background-color: #D2B48C;
+    color: white;
+    border: 1px solid #ddd;
+}
+
+.getBackButton {
+    background-color: #FFA07A;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 50px;
+    width: min-content;
+}
+
+.returnToLibraryButton {
+    background-color: #5F9EA0;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 50px;
+    width: min-content;
+}
+
+.giveBookButton {
+    background-color: #F08080;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 50px;
+    width: min-content;
+}
+
+.saveBookButton {
+    background-color: #90EE90;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 50px;
+    width: min-content;
+}

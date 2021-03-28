@@ -1,0 +1,59 @@
+<div class="container text-center">
+  <h1 id="pageH">Акции</h1>
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+      <tr>
+        <th scope="col">Название</th>
+        <th scope="col">Стартовая цена, $</th>
+        <th scope="col">Максимальный шаг, $</th>
+        <th scope="col">Объем, шт.</th>
+        <th scope="col">Закон распределения</th>
+<!--        <th scope="col">-->
+
+<!--        </th>-->
+        <th scope="col">
+
+        </th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr *ngFor="let stock of stocks; let i = index">
+          <td><input class="form-control" type="text" [(ngModel)]="stock.name" placeholder="Название" required></td>
+          <td><input class="form-control" type="number" [(ngModel)]="stock.startingPrice" placeholder="Стартовая цена" required></td>
+          <td><input class="form-control" type="number" [(ngModel)]="stock.maxStep" placeholder="Максимальный шаг" required></td>
+          <td><input class="form-control" type="number" [(ngModel)]="stock.number" placeholder="Объем" required></td>
+          <td>
+            <select class="form-control" [(ngModel)]="stock.changeType">
+              <option value="0">Равномерный</option>
+              <option value="1">Нормальный</option>
+            </select>
+          </td>
+<!--          <td>-->
+<!--            <input-->
+<!--              [ngStyle]="{'border':'1px solid red', 'outline':'none'}"-->
+<!--              [value]="value"-->
+<!--              (change)="updateValue($event.target.value)"-->
+<!--              (blur)="onTouched()"-->
+<!--              type="number"-->
+<!--            />-->
+<!--          </td>-->
+          <td>
+            <button type="button" class="btn btn-danger" (click)="deleteStock(i)">-</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button type="button" (click)="saveChanges()">Сохранить</button>
+  <button type="button" (click)="addStock()">Добавить</button>
+  <div class="alert" *ngIf="!isCorrect">
+    <strong>Ошибка!</strong> Неверно введены данные!
+  </div>
+</div>

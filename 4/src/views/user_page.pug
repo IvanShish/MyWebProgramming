@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    span#date(style='display: none;')=`${date}`
+    //span#name(style='display: none;')=`${participant.name}`
+    span#id(style='display: none;')=`${participant.id}`
+    span#money(style='display: none;')=`${participant.money}`
+    .row
+        .col-2
+            span#name=`Участник ${participant.name}`
+            h3
+                span#balance=`Баланс: ${participant.money}`
+                button(type='button', class='add-cube-button', onclick=`window.location.href="/users/purch/${participant.id}"`) Мои покупки
+
+            #bet-info(style='display: none').mt-5
+                h4#img-cur-price Текущая ставка:
+                h4#img-cur-owner Текущий покупатель:
+                #bet-buttons.mt-3.text-center
+                    input#spin(value='0')
+                    button(type='button', class='cube_button', onclick='makeBet()') Сделать ставку
+        .col-7
+            .text-center
+                h2#cur-event До начала аукциона:
+                h1
+                    a
+                        span.badge.badge-pill.badge-secondary#days 0
+                        |:
+                    a
+                        span.badge.badge-pill.badge-secondary#hours 0
+                        |:
+                    a
+                        span.badge.badge-pill.badge-secondary#minutes 0
+                        |:
+                    a
+                        span.badge.badge-pill.badge-secondary#seconds 0
+                #lot-info(style='display: none')
+                    h2 Текущий лот:
+                    h4#img-name Название:
+                    img#img.big_picture
+                    h4#img-author Автор:
+                    h5#img-describe Описание:
+                    h4#img-start-price Начальная цена:
+        .col-3
+            h3 Ход торгов
+            textarea.form-control#info(disabled, rows=30)

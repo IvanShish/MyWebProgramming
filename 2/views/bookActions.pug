@@ -1,0 +1,63 @@
+extends layout
+
+block content
+    .row
+        .col-3
+        .col
+            .input-group.mt-sm-3
+                .input-group-prepend
+                    span#basic-addon1.input-group-text Название
+                input.form-control#nameInput(type='text' aria-label='Название' aria-describedby='basic-addon1' value=`${book.name ? book.name : ""}`)
+            .input-group.mt-sm-3
+                .input-group-prepend
+                    span#basic-addon2.input-group-text Автор
+                input.form-control#authorInput(type='text' aria-label='Автор' aria-describedby='basic-addon2' value=`${book.author ? book.author : ""}`)
+            .input-group.mt-sm-3
+                .input-group-prepend
+                    span#basic-addon3.input-group-text Год публикации
+                input.form-control#yearInput(type='number' min="0" max="2025" onkeypress="return event.charCode >= 48" aria-label='Год публикации' aria-describedby='basic-addon3' value=`${book.year ? book.year : ""}`)
+
+            span#warning(style='display: none; color: red') Заполните все поля перед сохранением!
+
+            if book.owner
+                h6.mt-3#owner= 'Текущий обладатель книги: ' + book.owner
+                h6.mt-3#returnDate= 'Дата возврата: ' + book.returnDate
+            else
+                h6.mt-3#owner(style='display: none;')= 'Текущий обладатель книги: '
+                h6.mt-3#returnDate(style='display: none;')= 'Дата возврата: '
+
+            .col-md-12.text-center
+                .btn-groupp
+                    button(type='button', class='getBackButton', onclick='toBooksList()') Назад
+                    //if book.id >= 0
+                    //    if book.owner
+                    //        button(type='button', class='returnToLibraryButton', onclick=`returnBook(${JSON.stringify(book)})`) Вернуть в библиотеку
+                    //        button(type='button', class='giveBookButton', onclick='showModal()', style='display: none') Выдать книгу
+                    //    else
+                    //        button(type='button', class='returnToLibraryButton', onclick=`returnBook(${JSON.stringify(book)})`, style='display: none') Вернуть в библиотеку
+                    //        button(type='button', class='giveBookButton', onclick='showModal()') Выдать книгу
+                    button(type='button', class='saveBookButton', onclick=`saveBook(${JSON.stringify(book)})`) Сохранить
+        .col-3
+
+
+    //.modal.fade(tabindex='-1' id='modalForm' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true' data-backdrop="static")
+    //    .modal-dialog
+    //        .modal-content
+    //            .modal-header
+    //                h5#exampleModalLabel.modal-title Введите информацию о человеке, которому выдается книга
+    //                button.close(type='button' data-dismiss='modal' aria-label='Close')
+    //                    span(aria-hidden='true') &times;
+    //            .modal-body
+    //                .input-group
+    //                    .input-group-prepend
+    //                        span#basic-addon4.input-group-text Ф.И.О.
+    //                    input.form-control#ownerInput(type='text' aria-label='Ф.И.О.' aria-describedby='basic-addon4')
+    //                span#ownerWarning.mb-3(style='visibility: hidden; color: red') Укажите Ф.И.О.
+    //
+    //                .input-group.mt-3
+    //                    .input-group-prepend
+    //                        span#basic-addon5.input-group-text Дата возврата
+    //                    input.form-control#returnDateInput(type='date' aria-label='Дата возврата' aria-describedby='basic-addon5')
+    //                span#dateBackWarning(style='visibility: hidden; color: red') Укажите дату возврата
+    //            .modal-footer
+    //                button(type='button', class='giveBookButton', onclick=`giveBook(${JSON.stringify(book)})`) Выдать книгу

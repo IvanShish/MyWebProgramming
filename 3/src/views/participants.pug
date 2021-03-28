@@ -1,0 +1,24 @@
+doctype html
+html(lang="ru-RU")
+    head
+        title Участники аукциона
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+        link(rel="shortcut icon" href="/images/favicon.ico" type="image/png")
+        script(src='/javascripts/libs.min.js')
+        script(src='/javascripts/participants.js')
+    body
+        h1 Список участников
+
+        table#ptable
+            tr
+                td
+                    h2 Имя
+                td
+                    h2 Баланс
+                td
+                    .add-button-container
+                        .add-cube-button(onclick='addParticipant()') Добавить
+
+        .my-table
+            button(type='button', class='cube_button', onclick='window.location.href = "/admin/paintings"') Назад
+            button(type='button', class='cube_button', onclick='save()') Сохранить

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+  <head>
+    <title>Участники аукциона</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/png">
+    <script src="/javascripts/libs.min.js"></script>
+    <script src="/javascripts/participants.js"></script>
+  </head>
+  <body>
+    <h1>Список участников</h1>
+    <table id="ptable">
+      <tr>
+        <td>
+          <h2>Имя</h2>
+        </td>
+        <td>
+          <h2>Баланс</h2>
+        </td>
+        <td>
+          <div class="add-button-container">
+            <div class="add-cube-button" onclick="addParticipant()">Добавить</div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="my-table">
+      <button class="cube_button" type="button" onclick="window.location.href = &quot;/admin/paintings&quot;">Назад</button>
+      <button class="cube_button" type="button" onclick="save()">Сохранить</button>
+    </div>
+  </body>
+</html>

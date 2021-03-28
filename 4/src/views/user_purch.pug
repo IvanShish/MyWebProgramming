@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 Покупки
+    .my-table
+        each pic in purch
+            .responsivee
+                .gallery
+                    img(src=`/public${pic.srcSmall}`)
+                    .desc
+                        span.nameOfImg=`${pic.name}`
+    .my-table
+        button(type='button', class='cube_button', onclick=`window.location.href = "/users/page/${id}"`) Назад

@@ -1,0 +1,56 @@
+{
+  "brokers": [
+    {
+      "name": "Илон Маск",
+      "login": "ilon",
+      "balance": 50000
+    },
+    {
+      "name": "Шишкин И.В.",
+      "login": "fafafa",
+      "balance": 3333
+    }
+  ],
+  "stocks": [
+    {
+      "name": "Tesla Motors",
+      "startingPrice": 424,
+      "maxStep": 50,
+      "number": 15,
+      "changeType": "0"
+    },
+    {
+      "name": "Apple",
+      "startingPrice": 110,
+      "maxStep": 25,
+      "number": 38,
+      "changeType": "1"
+    },
+    {
+      "name": "Amazon.com",
+      "startingPrice": 3042,
+      "maxStep": 200,
+      "number": 9,
+      "changeType": 0
+    },
+    {
+      "name": "Facebook",
+      "startingPrice": 270,
+      "maxStep": 34,
+      "number": 83,
+      "changeType": 0
+    },
+    {
+      "name": "Da",
+      "startingPrice": 4,
+      "maxStep": 4,
+      "number": 4,
+      "changeType": 0
+    }
+  ],
+  "settings": {
+    "datetimeStart": "2020-10-27T04:15",
+    "datetimeEnd": "2020-11-21T06:03",
+    "interval": 15
+  }
+}

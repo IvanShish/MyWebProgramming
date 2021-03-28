@@ -1,0 +1,45 @@
+[
+  {
+    "id": 0,
+    "isActive": true,
+    "name": "1984",
+    "author": "Оруэлл Д.",
+    "year": "1949",
+    "inStock": false,
+    "owner": "Александров А.А.",
+    "returnDate": "2019-09-18"
+  },
+
+  {
+    "id": 1,
+    "isActive": true,
+    "name": "Преступление и наказание",
+    "author": "Достоевский Ф.М.",
+    "year": "1866",
+    "inStock": true,
+    "owner": "",
+    "returnDate": ""
+  },
+
+  {
+    "id": 2,
+    "isActive": true,
+    "name": "Два капитана",
+    "author": "Каверин В.А.",
+    "year": "1940",
+    "inStock": true,
+    "owner": "",
+    "returnDate": ""
+  },
+
+  {
+    "id": 3,
+    "isActive": true,
+    "name": "Судьба человека",
+    "author": "Шолохов М.А. ",
+    "year": "1957",
+    "inStock": true,
+    "owner": "",
+    "returnDate": ""
+  }
+]

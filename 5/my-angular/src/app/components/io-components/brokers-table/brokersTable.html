@@ -1,0 +1,39 @@
+<div class="container text-center">
+  <h1 id="pageH">Брокеры</h1>
+
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+      <tr>
+        <th scope="col">Логин</th>
+        <th scope="col">Ф.И.О.</th>
+        <th scope="col">Баланс, $</th>
+        <th scope="col">
+
+        </th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+      <tr *ngFor="let broker of brokers; let i = index">
+        <td><input class="form-control" type="text" [(ngModel)]="broker.login" placeholder="Логин"></td>
+        <td><input class="form-control" type="text" [(ngModel)]="broker.name" placeholder="Ф.И.О"></td>
+        <td><input class="form-control" type="number" [(ngModel)]="broker.balance" placeholder="Баланс"></td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="deleteBroker(i)">-</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button type="button" (click)="saveChanges()">Сохранить</button>
+  <button type="button" (click)="addBroker()">Добавить</button>
+  <div class="alert" *ngIf="!isCorrect">
+    <strong>Ошибка!</strong> Неверно введены данные!
+  </div>
+</div>

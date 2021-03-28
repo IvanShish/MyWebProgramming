@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .my-table
+    input.form-input#name_input(type='text', placeholder='Имя пользователя')
+  .my-table
+    small#warning(style='color: #560319; display: none') Пользователь не найден
+  .my-table
+    button.cube_button(type='button' onclick='auth()') Войти

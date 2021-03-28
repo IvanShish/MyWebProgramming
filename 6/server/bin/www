@@ -1,0 +1,242 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('server:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3006');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+const fs = require('fs');
+const path = require('path');
+const data = JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../data.json'), 'utf-8'));
+
+let startTimeOut;
+let endTimeOut;
+let interval;
+
+const io = require('socket.io').listen(3030)
+
+io.sockets.on('connection', (socket) =>{
+  console.log('connect')
+
+  socket.on('start', (endInterval, endDate) => {
+    console.log('admin started the exchange');
+    console.log(endInterval, endDate)
+    clearTimeout(startTimeOut);
+    socket.broadcast.json.emit('start');
+    data.settings.state = 'in';
+    data.settings.interval = parseInt(endInterval);
+    data.settings.datetimeEnd = endDate;
+    fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+
+    endTimeOut = setTimeout(() => {
+      console.log('end');
+      io.sockets.json.emit('end');
+      data.settings.state = 'after';
+      fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+      clearInterval(interval);
+    }, new Date(data.settings.datetimeEnd) - new Date());
+
+    interval = setInterval(() => {
+      for (let stock of data.stocks) {
+        generateAPrice(stock);
+      }
+      console.log('prices changed');
+      io.sockets.json.emit('change', {stocks: data.stocks});
+      fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+    }, data.settings.interval * 1000);
+  });
+
+  socket.on('end', () => {
+    console.log('admin ended the exchange');
+    clearTimeout(endTimeOut);
+    clearInterval(interval)
+    socket.broadcast.json.emit('end')
+    data.settings.state = 'after';
+    fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+  });
+
+  socket.on('sell', (req_data) => {
+    let sellInfo = req_data.sellInfo;
+    if (sellInfo.count <= data.brokers[sellInfo.seller_id].stocks[sellInfo.stock_id].count) {
+      io.sockets.json.emit('sell', {sellInfo: sellInfo});
+
+      data.brokers[sellInfo.seller_id].selling_stocks[sellInfo.stock_id].count += sellInfo.count;
+      data.brokers[sellInfo.seller_id].stocks[sellInfo.stock_id].count -= sellInfo.count;
+      fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+    }
+  });
+
+  socket.on('notsell', (req_data) => {
+    let notsellInfo = req_data.notsellInfo;
+    if (notsellInfo.count <= data.brokers[notsellInfo.seller_id].selling_stocks[notsellInfo.stock_id].count) {
+      io.sockets.json.emit('notsell', {notsellInfo: notsellInfo});
+
+      data.brokers[notsellInfo.seller_id].selling_stocks[notsellInfo.stock_id].count -= notsellInfo.count;
+      data.brokers[notsellInfo.seller_id].stocks[notsellInfo.stock_id].count += notsellInfo.count;
+    }
+  })
+
+  socket.on('buy', (req_data) => {
+    let transaction = req_data.transaction;
+    console.log(transaction);
+    if(((transaction.seller_id >= 0 && transaction.count <= data.brokers[transaction.seller_id].selling_stocks[transaction.stock_id].count) || (transaction.seller_id < 0 && transaction.count <= data.stocks[transaction.stock_id].count))
+        && data.brokers[transaction.buyer_id].balance >= transaction.count * transaction.price) {
+      io.sockets.json.emit('buy', {transaction: transaction});
+
+      data.brokers[transaction.buyer_id].stocks[transaction.stock_id].count += transaction.count;
+      data.brokers[transaction.buyer_id].balance -= transaction.price * transaction.count;
+      data.brokers[transaction.buyer_id].waste += transaction.price * transaction.count;
+      if (transaction.seller_id >= 0) {
+        data.brokers[transaction.seller_id].selling_stocks[transaction.stock_id].count -= transaction.count;
+        data.brokers[transaction.seller_id].balance += transaction.count * transaction.price;
+        data.brokers[transaction.seller_id].earn += transaction.count * transaction.price;
+      } else if (transaction.seller_id < 0) {
+        data.stocks[transaction.stock_id].count -= transaction.count;
+      }
+      fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+    }
+  });
+
+  socket.on('setChange', (req_data)=> {
+    for(let stock of data.stocks) {
+      stock.changeType = req_data.type;
+    }
+    fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+  })
+})
+
+startTimeOut = setTimeout(() => {
+  console.log('start');
+  io.sockets.json.emit('start');
+  data.settings.state = 'in';
+  fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+  interval = setInterval(() => {
+    for (let stock of data.stocks) {
+      generateAPrice(stock);
+    }
+    console.log('change prices')
+    io.sockets.json.emit('change', {stocks: data.stocks});
+    fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+
+  }, data.settings.interval * 1000);
+}, new Date(data.settings.datetimeStart) - new Date());
+
+console.log(data.settings.datetimeEnd, new Date(data.settings.datetimeEnd) - new Date());
+
+endTimeOut = setTimeout(() => {
+  console.log('end');
+  io.sockets.json.emit('end');
+  data.settings.state = 'after';
+  fs.writeFileSync(path.resolve(__dirname + '/../data.json'), JSON.stringify(data, null, 2));
+  clearInterval(interval);
+}, new Date(data.settings.datetimeEnd) - new Date());
+
+function generateAPrice(stock) {
+  let dif;
+  if (stock.changeType == 0) {  //равномерный
+    dif = Math.round(Math.random() * (stock.maxStep * 2) - stock.maxStep);
+  } else {  //нормальный
+    dif = Math.round(randn_bm() * (stock.maxStep * 2) - stock.maxStep);
+  }
+
+  if ((dif < 0 && -dif < stock.startingPrice) || dif > 0) {
+    stock.startingPrice = stock.startingPrice + dif;
+  } else {
+    stock.startingPrice = 1;
+  }
+}
+
+function randn_bm() {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+  while(v === 0) v = Math.random();
+  let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+  num = num / 10.0 + 0.5; // Translate to 0 -> 1
+  if (num > 1 || num < 0) return randn_bm(); // resample between 0 and 1
+  return num;
+}
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

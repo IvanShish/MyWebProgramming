@@ -1,0 +1,28 @@
+doctype html
+html(lang="ru-RU")
+    head
+        title Настройки
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+        link(rel="shortcut icon" href="/images/favicon.ico" type="image/png")
+        script(src='/javascripts/libs.min.js')
+        script(src='/javascripts/settings.js')
+    body
+        h1 Настройки аукциона
+
+        .form-inputs
+            .form-input-group
+                input#datetime-input.form-input(type='datetime-local')
+                span.bar
+                label.form-input-label Дата и время начала
+            .form-input-group
+                input#timeout-input.form-input(type='number' required)
+                span.bar
+                label.form-input-label Таймаут (секунды)
+            .form-input-group
+                input#pause-input.form-input(type='number' required)
+                span.bar
+                label.form-input-label Перерыв для ознакомления
+
+        .my-table
+            button(type='button', class='cube_button', onclick='window.location.href = "/admin/paintings"') Назад
+            button(type='button', class='cube_button', onclick='save()') Сохранить

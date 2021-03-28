@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <script type="text/javascript" src="/js/managers/gameInfoManager.js"></script>
+        <script type="text/javascript" src="/js/managers/eventsManager.js"></script>
+        <script type="text/javascript" src="/js/managers/mapManager.js"></script>
+        <script type="text/javascript" src="/js/managers/soundManager.js"></script>
+        <script type="text/javascript" src="/js/managers/spriteManager.js"></script>
+        <script type="text/javascript" src="/js/managers/physicsManager.js"></script>
+        <script type="text/javascript" src="/js/managers/enemyManager.js"></script>
+        <script type="text/javascript" src="/js/managers/gameManager.js"></script>
+        <script type="text/javascript" src="/js/objects.js"></script>
+        <script type="text/javascript" src="/js/game.js"></script>
+    </head>
+    <body>
+        <div class="gameInfoCont">
+            <b>
+                Name: <label id="username"><%= userName %></label>
+                <br>
+                HP: <label id="hp_label">100</label>
+                <br>
+                Speed: <label id="speed_label">1</label>
+                <br>
+                Score: <label id="score_label">0</label>
+            </b>
+        </div>
+        <canvas id="canvasId" height="640" width="640"></canvas>
+    </body>
+</html>

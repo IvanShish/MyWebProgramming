@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script type="text/javascript" src="/js/managers/soundManager.js"></script>
+    <script type="text/javascript" src="/js/end_game.js"></script>
+</head>
+<body>
+    <div class="gameOverCont">
+        <h2>Game over!</h2>
+        <b>
+            Name: <label id="username"><%= userName %></label>
+            <br>
+            Score: <label id="score_label"><%= points %></label>
+        </b>
+        <h4>Таблица рекордов</h4>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Name</th>
+                <th scope="col">Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td id="tb_name_1">-</td>
+                <td id="tb_score_1">-</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td id="tb_name_2">-</td>
+                <td id="tb_score_2">-</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td id="tb_name_3">-</td>
+                <td id="tb_score_3">-</td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td id="tb_name_4">-</td>
+                <td id="tb_score_4">-</td>
+            </tr>
+            <tr>
+                <th scope="row">5</th>
+                <td id="tb_name_5">-</td>
+                <td id="tb_score_5">-</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button class="entranceBtn" type="button" onclick="window.location.href = '/'">Заново</button>
+    </div>
+</body>
+</html>

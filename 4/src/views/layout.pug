@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= title
+    script(src='/main.js')
+    script(src='http://localhost:3030/socket.io/socket.io.js')
+    script(src= script)
+    link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+    link(rel='shortcut icon' href='/favicon.ico' type='image/ico')
+  body
+    block content

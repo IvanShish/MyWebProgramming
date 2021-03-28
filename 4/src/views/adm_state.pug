@@ -1,0 +1,49 @@
+extends layout
+
+block content
+    h1.text-center Администрирование
+    .my-table
+        .row.mt-1
+            .col-3
+                h3 Список участников
+                table.table.mr-3
+                    thead
+                        tr
+                            th(scope='col') #
+                            th(scope='col') Фамилия
+                            th(scope='col') Баланс
+                    tbody
+                        each p in data.participants
+                            tr
+                                td= p.id
+                                td= p.name
+                                td= p.money
+                button(type='button', class='cube_button', onclick=`refresh_buyer(${JSON.stringify(data.images)})`) Обнуление
+            .col-8
+                h3 Перечень картин
+                table.table.ml-3
+                    thead
+                        tr
+                            th(scope='col') #
+                            th(scope='col') Название
+                            th(scope='col')
+                            th(scope='col') Покупатель
+                            th(scope='col') Начальная цена
+                            th(scope='col') Конечная цена
+                    tbody
+                        each p in data.images
+                            tr(id=`tr${p.id}`)
+                                th=p.id
+                                td=p.name
+                                td
+                                    img.small_picture(src=`/public${p.srcSmall}` alt='Изображение картины')
+                                td.lastOwner=p.lastOwnerId >= 0 ? data.participants[p.lastOwnerId].name : '-'
+                                td=p.startPrice
+                                td.lastBet=p.lastBet ? p.lastBet : '-'
+        .col-3
+            h3 Ход торгов
+            textarea.form-control#info(disabled, rows=40)
+    script.
+        $(function () {
+            $(".form-control").resizable();
+        });

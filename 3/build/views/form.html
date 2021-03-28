@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+  <head>
+    <title>Редактирование</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/png">
+    <script src="/javascripts/libs.min.js"></script>
+    <script src="/javascripts/form.js"></script>
+  </head>
+  <body>
+    <h1>Редактирование информации о картине</h1>
+    <div class="my-table"><img class="big_picture" id="pic">
+      <div class="form-inputs">
+        <div class="form-input-group">
+          <input class="form-input" id="name-input" type="text" required><span class="bar"></span>
+          <label class="form-input-label">Название</label>
+        </div>
+        <div class="form-input-group">
+          <input class="form-input" id="author-input" type="text" required><span class="bar"></span>
+          <label class="form-input-label">Автор</label>
+        </div>
+        <div class="form-input-group">
+          <textarea class="form-input description" id="description-input" required></textarea><span class="bar"></span>
+          <label class="form-input-label">Описание</label>
+        </div>
+        <div class="form-input-group">
+          <input class="form-input" id="start-price-input" type="number" required><span class="bar"></span>
+          <label class="form-input-label">Начальная цена</label>
+        </div>
+        <div class="form-input-group">
+          <input class="form-input" id="min-step-input" type="number" required><span class="bar"></span>
+          <label class="form-input-label">Минимальный шаг</label>
+        </div>
+        <div class="form-input-group">
+          <input class="form-input" id="max-step-input" type="number" required><span class="bar"></span>
+          <label class="form-input-label">Максимальный шаг</label>
+        </div>
+        <div class="form-input-group">
+          <input id="active-cb" type="checkbox" checked>
+          <label class="plain-text" for="active-cb">Учавствует в аукционе</label>
+        </div>
+        <div class="form-input-group">
+          <label class="plain-text" for="pic-input">Изображение</label>
+          <input id="pic-input" type="file" accept=".jpg" name="pic-file" onchange="changeImg()">
+        </div>
+        <div class="form-input-group">
+          <label class="plain-text" for="pic-min-input">Миниатюра</label>
+          <input id="pic-min-input" type="file" accept=".jpg" onchange="changeMiniImg()">
+        </div>
+        <div class="my-table">
+          <button class="cube_button" type="button" onclick="window.location.href = &quot;/admin/paintings&quot;">Назад</button>
+          <button class="cube_button" type="button" onclick="save()">Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

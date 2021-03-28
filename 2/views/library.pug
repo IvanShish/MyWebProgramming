@@ -1,0 +1,70 @@
+extends layout
+
+block content
+    div(class='cont')
+        div(class='buttons')
+            button(type='button', class='showAllBooksButton', onclick='showAllBooks()') Все книги
+            button(type='button', class='showExpiredBooksButton', onclick='showExpiredBooks()') Возврат просрочен
+            button(type='button', class='showAvailableBooksButton', onclick='showAvailableBooks()') В наличии
+            button(type='button', class='addBookButton', onclick='addBook()') Добавить книгу
+
+            table(id='books_table')
+                thead
+                    tr
+                        th(scope='col') Название книги
+                        th(scope='col') Автор
+                        th(scope='col') Год публикации
+                        th(scope='col') В наличии?
+                        th(scope='col') Возврат просрочен?
+                        th(scope='col')
+                tbody
+                    each val in data
+                        if val && val.isActive
+                            tr(id = 'book' + val.id)
+                                //th(scope='row')= val.name
+                                td= val.name
+                                td= val.author
+                                td= val.year
+                                if val.inStock
+                                    td= 'Да'
+                                else
+                                    td= 'Нет'
+                                if +(Date.parse(val.returnDate)) <= +new Date
+                                    td= 'Да'
+                                else
+                                    td= 'Нет'
+
+                                td
+                                    .btn-group
+                                    button(type='button', class='editBookButton', onclick=`editBook(${val.id})`) Изменить данные
+                                    button(type='button', class='deleteBookButton', onclick=`deleteBook(${val.id})`) Удалить
+                                    if val.id >= 0
+                                        if val.owner
+                                            button(type='button', class='returnToLibraryButton', onclick=`returnBook(${JSON.stringify(val)})`) Вернуть в библиотеку
+                                            button(type='button', class='giveBookButton', onclick=`showModal(${JSON.stringify(val)})`, style='display: none') Выдать книгу
+                                        else
+                                            button(type='button', class='returnToLibraryButton', onclick=`returnBook(${JSON.stringify(val)})`, style='display: none') Вернуть в библиотеку
+                                            button(type='button', class='giveBookButton', onclick=`showModal(${JSON.stringify(val)})`) Выдать книгу
+
+                        .modal.fade(tabindex='-1' id='modalForm' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true' data-backdrop="static")
+                            .modal-dialog
+                                .modal-content
+                                    .modal-header
+                                        h5#exampleModalLabel.modal-title Введите информацию о человеке, которому выдается книга
+                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                            span(aria-hidden='true') &times;
+                                    .modal-body
+                                        h6.idOfBook.modal-title
+                                        .input-group
+                                            .input-group-prepend
+                                                span#basic-addon4.input-group-text Ф.И.О.
+                                            input.form-control#ownerInput(type='text' aria-label='Ф.И.О.' aria-describedby='basic-addon4')
+                                        span#ownerWarning.mb-3(style='visibility: hidden; color: red') Укажите Ф.И.О.
+
+                                        .input-group.mt-3
+                                            .input-group-prepend
+                                                span#basic-addon5.input-group-text Дата возврата
+                                            input.form-control#returnDateInput(type='date' aria-label='Дата возврата' aria-describedby='basic-addon5')
+                                        span#dateBackWarning(style='visibility: hidden; color: red') Укажите дату возврата
+                                    .modal-footer
+                                        button(type='button', class='giveBookButton', onclick=`giveBook(${JSON.stringify(data)})`) Выдать книгу

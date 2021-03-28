@@ -1,0 +1,19 @@
+<div class="container text-center mt-6">
+  <h1 id="pageH">Настройки аукциона</h1>
+  <div class="form-group mt-3">
+    <label for="dateStart">Начало торгов:</label>
+    <input id="dateStart" type="datetime-local" class="form-control" [(ngModel)]="settings.datetimeStart">
+  </div>
+  <div class="form-group">
+    <label for="dateEnd">Окончание торгов:</label>
+    <input id="dateEnd" type="datetime-local" class="form-control" [(ngModel)]="settings.datetimeEnd">
+  </div>
+  <div class="form-group">
+    <label for="dateEnd">Интервал:</label>
+    <input type="number" class="form-control" [(ngModel)]="settings.interval">
+  </div>
+  <button type="button"(click)="saveChanges()">Сохранить</button>
+  <div class="alert" *ngIf="!isCorrect">
+    <strong>Ошибка!</strong> Неверно введены данные!
+  </div>
+</div>

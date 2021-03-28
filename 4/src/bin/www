@@ -1,0 +1,247 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('auction-lr4:server');
+var http = require('http');
+let fs = require('fs')
+let path = require('path')
+// include and initialize the rollbar library with your access token
+var Rollbar = require("rollbar");
+var rollbar = new Rollbar({
+  accessToken: '2c38fe4db0d343d3bebce44fbf1229f2',
+  captureUncaught: true,
+  captureUnhandledRejections: true
+});
+
+// record a generic message and send it to Rollbar
+rollbar.log("Hello world!");
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+let data = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../node_modules/my_auction_lab3/data.json'), 'utf-8'))
+let dif = BigInt(new Date(data.settings.datetime) - new Date());
+if (dif < 2147483647n) {
+  dif = Number(dif);
+}
+let aucPause;
+let curPic;
+let curPicId = 0;
+let state = 'before' //pause, bet, end
+let pseconds;
+let tseconds;
+
+const io = require('socket.io').listen(3030)
+io.sockets.on('connection', (socket) => {
+  switch (state) {
+    case "pause":
+      socket.json.emit('pause', {time: new Date().toLocaleTimeString(), pause: pseconds, image: curPic});
+      rollbar.info('Пользователь подключился во время паузы')
+      break
+    case "bet":
+      socket.json.emit('betEntry', {image: curPic, seconds: tseconds, lastOwner: curPic.lastOwnerId >= 0 ? data.participants[curPic.lastOwnerId].name : null, timeout: data.settings.timeout});
+      rollbar.info('Пользователь подключился во время ставок')
+      break
+    case "end":
+      socket.json.emit('finish', {time: new Date().toLocaleTimeString()})
+      rollbar.info('Пользователь подключился после завершения аукциона')
+      break
+  }
+
+  socket.on('bet', (bet) => {
+    let flag = true
+    if (curPic.lastBet > 0) {
+      if (curPic.lastBet >= bet.bet || (curPic.minStep >=  bet.bet - curPic.lastBet) || (curPic.maxStep < bet.bet - curPic.lastBet)) {
+        flag = false;
+        if ((curPic.minStep >=  bet.bet - curPic.lastBet) || (curPic.maxStep < bet.bet - curPic.lastBet)) {
+          socket.json.emit('problem', {time: new Date().toLocaleTimeString(), msg: 'Ставка некорректна'})
+          rollbar.info(`Пользователь #${bet.id} сделал некорректную ставку`)
+        }
+        else {
+          socket.json.emit('problem', {time: new Date().toLocaleTimeString(), msg: 'Ставка слишком мала'})
+          rollbar.info(`Пользователь #${bet.id} сделал слишком маленькую ставку`)
+        }
+      }
+    }
+    if (flag && data.participants[bet.id].money >= bet.bet && curPic.startPrice <= bet.bet) {
+      curPic.lastBet = bet.bet
+      curPic.lastOwnerId = bet.id
+      io.sockets.json.emit('betMade', {
+        time: new Date().toLocaleTimeString(),
+        bet: bet.bet,
+        lastOwner: data.participants[bet.id].name
+      })
+      tseconds = data.settings.timeout
+      rollbar.info(`Пользователь #${bet.id} сделал ставку в размере ${bet.bet}`)
+    }
+    else if (flag) {
+      if (curPic.startPrice > bet.bet) {
+        socket.json.emit('problem', {time: new Date().toLocaleTimeString(), msg: 'Ставка ниже стартовой цены'})
+        rollbar.info(`Пользователь #${bet.id} сделал ставку меньше стартовой цены`)
+      }
+      else {
+        socket.json.emit('problem', {
+          time: new Date().toLocaleTimeString(),
+          msg: 'Недостаточно средств для совершения ставки'
+        })
+        rollbar.info(`У пользователя #${bet.id} недостаточно средств для совершения ставки`)
+      }
+    }
+  })
+})
+
+if (dif > 0) {
+  setTimeout(() => {
+    beginAuc()
+  }, dif)
+} else {
+  state = 'end'
+}
+
+
+function beginAuc() {
+  io.sockets.emit('aucBeginning', new Date().toLocaleTimeString())
+  rollbar.info(`Аукцион начался`)
+  startPause()
+}
+
+function startPause() {
+  curPic = data.images[curPicId];
+  state = 'pause'
+  io.sockets.json.emit('pause', {time: new Date().toLocaleTimeString(), pause: data.settings.pause, image: curPic})
+  rollbar.info(`Пауза на ознакомление с лотом "${curPic.name}"`)
+  aucPause = setTimeout(afterPause,data.settings.pause * 1000)
+
+  pseconds = data.settings.pause
+  pauseChrono()
+}
+
+function afterPause() {
+  io.sockets.json.emit('betBeginning', {time: new Date().toLocaleTimeString(), image : curPic, timeout: data.settings.timeout})
+  rollbar.info(`Принимаются ставки на лот "${curPic.name}"`)
+  state = 'bet'
+
+  tseconds = data.settings.timeout
+  timeoutChrono()
+}
+
+function endAuc() {
+  io.sockets.json.emit('betEnded', {time: new Date().toLocaleTimeString(), winner: curPic.lastOwnerId >= 0 ? data.participants[curPic.lastOwnerId].name : null, winnerId: curPic.lastOwnerId, lastBet: curPic.lastBet, lotName: curPic.name, lotId: curPicId})
+  //save
+  if (curPic.lastOwnerId >= 0) {
+    data.participants[curPic.lastOwnerId].money -= curPic.lastBet;
+    fs.writeFileSync(path.resolve(__dirname, '../../node_modules/my_auction_lab3/data.json'), JSON.stringify(data, null, 2));
+    rollbar.info(`Лот "${curPic.name}" продан пользователю #${curPic.lastOwnerId} за ${curPic.lastBet}`)
+  } else {
+    rollbar.info(`Лот "${curPic.name}" не был продан`)
+  }
+
+  if(++curPicId < data.images.length) {
+    startPause()
+  } else {
+    io.sockets.json.emit('finish', {time: new Date().toLocaleTimeString()})
+    state = 'end'
+  }
+}
+
+function timeoutChrono() {
+  let chrono = setInterval(() => {
+    // console.log(tseconds)
+    if (--tseconds <= 0) {
+      endAuc()
+      clearInterval(chrono)
+    }
+  }, 1000)
+}
+
+function pauseChrono() {
+  let chrono = setInterval(() => {
+    // console.log(pseconds)
+    if (--pseconds <= 0) {
+      clearInterval(chrono)
+    }
+  }, 1000)
+}
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

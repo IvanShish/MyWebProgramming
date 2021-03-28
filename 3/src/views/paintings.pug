@@ -1,0 +1,22 @@
+doctype html
+html(lang="ru-RU")
+    head
+        title Картины
+        link(rel='icon', href='/images/favicon.ico', type='image/x-icon')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+        link(rel="stylesheet", type="text/css", href='/stylesheets/slick/slick.css')
+        link(rel="stylesheet", type="text/css", href='/stylesheets/slick/slick-theme.css')
+        script(src='/javascripts/libs.min.js')
+        script(src='/javascripts/paintings.js')
+        script(type="text/javascript", src="//code.jquery.com/jquery-1.11.0.min.js")
+        script(type="text/javascript", src="//code.jquery.com/jquery-migrate-1.2.1.min.js")
+        script(type="text/javascript", src='/javascripts/slick.min.js')
+    body
+        h1 Список картин
+        #pictures
+            section.slider
+
+        .fieldset
+            button(type='button', class='cube_button', onclick='window.location.href = "participants"') Список участников
+        .fieldset
+            button(type='button', class='cube_button', onclick='window.location.href = "settings"') Настройки

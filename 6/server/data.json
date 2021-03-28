@@ -1,0 +1,208 @@
+{
+  "brokers": [
+    {
+      "id": 0,
+      "name": "Илон Маск",
+      "login": "ilon",
+      "balance": 48412,
+      "waste": 1657,
+      "earn": 69,
+      "stocks": [
+        {
+          "id": 0,
+          "count": 3
+        },
+        {
+          "id": 1,
+          "count": 1
+        },
+        {
+          "id": 2,
+          "count": 2
+        },
+        {
+          "id": 3,
+          "count": 0
+        },
+        {
+          "id": 4,
+          "count": 0
+        }
+      ],
+      "selling_stocks": [
+        {
+          "id": 0,
+          "count": 0
+        },
+        {
+          "id": 1,
+          "count": 1
+        },
+        {
+          "id": 2,
+          "count": 0
+        },
+        {
+          "id": 3,
+          "count": 0
+        },
+        {
+          "id": 4,
+          "count": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Шишкин И.В.",
+      "login": "shish",
+      "balance": 9101,
+      "waste": 899,
+      "earn": 0,
+      "stocks": [
+        {
+          "id": 0,
+          "count": 3
+        },
+        {
+          "id": 1,
+          "count": 7
+        },
+        {
+          "id": 2,
+          "count": 2
+        },
+        {
+          "id": 3,
+          "count": 0
+        },
+        {
+          "id": 4,
+          "count": 0
+        }
+      ],
+      "selling_stocks": [
+        {
+          "id": 0,
+          "count": 0
+        },
+        {
+          "id": 1,
+          "count": 0
+        },
+        {
+          "id": 2,
+          "count": 0
+        },
+        {
+          "id": 3,
+          "count": 0
+        },
+        {
+          "id": 4,
+          "count": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Известный С.А.",
+      "login": "silver",
+      "balance": 7574,
+      "waste": 1188,
+      "earn": 1262,
+      "stocks": [
+        {
+          "id": 0,
+          "count": 5
+        },
+        {
+          "id": 1,
+          "count": 4
+        },
+        {
+          "id": 2,
+          "count": 1
+        },
+        {
+          "id": 3,
+          "count": 1
+        },
+        {
+          "id": 4,
+          "count": 0
+        }
+      ],
+      "selling_stocks": [
+        {
+          "id": 0,
+          "count": 0
+        },
+        {
+          "id": 1,
+          "count": 0
+        },
+        {
+          "id": 2,
+          "count": 0
+        },
+        {
+          "id": 3,
+          "count": 0
+        },
+        {
+          "id": 4,
+          "count": 0
+        }
+      ]
+    }
+  ],
+  "stocks": [
+    {
+      "id": 0,
+      "name": "Tesla Motors",
+      "startingPrice": 1,
+      "maxStep": 50,
+      "count": 14,
+      "changeType": 0
+    },
+    {
+      "id": 1,
+      "name": "Apple",
+      "startingPrice": 22,
+      "maxStep": 25,
+      "count": 28,
+      "changeType": 0
+    },
+    {
+      "id": 2,
+      "name": "Amazon.com",
+      "startingPrice": 2129,
+      "maxStep": 200,
+      "count": 7,
+      "changeType": 0
+    },
+    {
+      "id": 3,
+      "name": "Facebook",
+      "startingPrice": 16,
+      "maxStep": 34,
+      "count": 82,
+      "changeType": 0
+    },
+    {
+      "id": 4,
+      "name": "Intel Corporation",
+      "startingPrice": 2,
+      "maxStep": 10,
+      "count": 123,
+      "changeType": 0
+    }
+  ],
+  "settings": {
+    "datetimeStart": "2020-11-16T13:07",
+    "datetimeEnd": "2020-12-04T23:24",
+    "interval": 10,
+    "state": "in"
+  }
+}

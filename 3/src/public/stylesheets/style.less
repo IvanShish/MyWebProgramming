@@ -1,0 +1,212 @@
+@main_bg_color: #008B8B;
+@main_button_color: #9E617A;
+@main_h1_color: #FF7518;
+@main_h2_color: #A9A9A9;
+@main_h3_color: #A9A9A9;
+@main_text_color: #fcf3cf;
+@main_font: 'Comfortaa', cursive;
+
+body {
+  background-color: @main_bg_color;
+  text-align: center;
+}
+
+h1 {
+  color: @main_h1_color;
+  font-family: @main_font;
+}
+
+h3 {
+  color: @main_h3_color;
+  font-family: @main_font;
+}
+
+#auth_buttons {
+  display: inline-block;
+  margin-top: 100px;
+}
+
+.fieldset {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cube_button {
+  background-color: @main_button_color;
+  color: white;
+  padding: 20px 70px;
+  margin: 8px 0;
+  border: 1px solid;
+  cursor: pointer;
+  text-align: center;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+#pictures {
+  max-width: 424px;
+  margin: auto;
+}
+slider {
+  width: auto;
+  margin: 30px 50px 50px;
+}
+.slick-prev {
+  &:before {
+    color: black;
+  }
+}
+.slick-next {
+  &:before {
+    color: black;
+  }
+}
+
+.small_picture {
+  height: 200px;
+  width: 200px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.my-table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.big_picture {
+  height: 700px;
+  width: 700px;
+  margin: auto;
+  border: @main_h1_color solid 2px;
+}
+
+.description {
+  resize: vertical;
+  height: 100px;
+}
+
+.form-inputs {
+  display: block;
+  horiz-align: center;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  font-family: @main_font;
+}
+
+.form-input-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.form-input {
+  font-size: 16px;
+  padding: 10px;
+  display: block;
+  width: 300px;
+  border: none;
+  color: @main_text_color;
+  background-color: @main_bg_color;
+  border-bottom: 1px solid @main_text_color;
+  font-family: @main_font;
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.form-input-label {
+  color: @main_h1_color;
+  font-size: 18px;
+  position: absolute;
+  pointer-events: none;
+  left: 10px;
+  top: 15px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.form-input:focus ~ .form-input-label, .form-input:valid ~ .form-input-label {
+  top: -15px;
+  font-size: 14px;
+  color: @main_h1_color;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 320px;
+}
+.bar:before, .bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 0;
+  position: absolute;
+  background: @main_h1_color;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+.bar:before {
+  left: 50%;
+}
+.bar:after {
+  right: 50%;
+}
+
+.form-input:focus ~ .bar:before,
+.form-input:focus ~ .bar:after {
+  width: 50%;
+}
+
+#ptable {
+  margin: auto;
+}
+
+.delete-cube-button {
+  background-color: #a25d5d;
+  color: white;
+  padding: 10px 30px;
+  margin: 10px 20px;
+  border: 1px solid;
+  cursor: pointer;
+  text-align: center;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.add-cube-button {
+  background-color: #40826D;
+  color: white;
+  padding: 10px 30px;
+  margin: 10px 20px;
+  border: 1px solid;
+  cursor: pointer;
+  text-align: center;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

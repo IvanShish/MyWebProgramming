@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+  <head>
+    <title>Настройки</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/png">
+    <script src="/javascripts/libs.min.js"></script>
+    <script src="/javascripts/settings.js"></script>
+  </head>
+  <body>
+    <h1>Настройки аукциона</h1>
+    <div class="form-inputs">
+      <div class="form-input-group">
+        <input class="form-input" id="datetime-input" type="datetime-local"><span class="bar"></span>
+        <label class="form-input-label">Дата и время начала</label>
+      </div>
+      <div class="form-input-group">
+        <input class="form-input" id="timeout-input" type="number" required><span class="bar"></span>
+        <label class="form-input-label">Таймаут (секунды)</label>
+      </div>
+      <div class="form-input-group">
+        <input class="form-input" id="pause-input" type="number" required><span class="bar"></span>
+        <label class="form-input-label">Перерыв для ознакомления</label>
+      </div>
+    </div>
+    <div class="my-table">
+      <button class="cube_button" type="button" onclick="window.location.href = &quot;/admin/paintings&quot;">Назад</button>
+      <button class="cube_button" type="button" onclick="save()">Сохранить</button>
+    </div>
+  </body>
+</html>

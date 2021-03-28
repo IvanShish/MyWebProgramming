@@ -1,0 +1,49 @@
+doctype html
+html(lang="ru-RU")
+    head
+        title Редактирование
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+        link(rel="shortcut icon" href="/images/favicon.ico" type="image/png")
+        script(src='/javascripts/libs.min.js')
+        script(src='/javascripts/form.js')
+    body
+        h1 Редактирование информации о картине
+        .my-table
+            img.big_picture#pic
+            .form-inputs
+                .form-input-group
+                    input#name-input.form-input(type='text', required)
+                    span.bar
+                    label.form-input-label Название
+                .form-input-group
+                    input#author-input.form-input(type='text', required)
+                    span.bar
+                    label.form-input-label Автор
+                .form-input-group
+                    textarea#description-input.form-input.description(required)
+                    span.bar
+                    label.form-input-label Описание
+                .form-input-group
+                    input#start-price-input.form-input(type='number', required)
+                    span.bar
+                    label.form-input-label Начальная цена
+                .form-input-group
+                    input#min-step-input.form-input(type='number', required)
+                    span.bar
+                    label.form-input-label Минимальный шаг
+                .form-input-group
+                    input#max-step-input.form-input(type='number', required)
+                    span.bar
+                    label.form-input-label Максимальный шаг
+                .form-input-group
+                    input#active-cb(type="checkbox" checked)
+                    label.plain-text(for='active-cb') Учавствует в аукционе
+                .form-input-group
+                    label.plain-text(for='pic-input') Изображение
+                    input#pic-input(type="file" accept='.jpg' name='pic-file' onchange='changeImg()')
+                .form-input-group
+                    label.plain-text(for='pic-min-input') Миниатюра
+                    input#pic-min-input(type="file" accept='.jpg' onchange='changeMiniImg()')
+                .my-table
+                    button(type='button', class='cube_button', onclick='window.location.href = "/admin/paintings"') Назад
+                    button(type='button', class='cube_button', onclick='save()') Сохранить
